@@ -13,10 +13,6 @@ class Task {
     const ACTION_REFUSE = 'action_refuse';
     const ACTION_COMPLETE = 'action_complete';
 
-    const ROLE_USER_EXECUTOR = 'executor';
-    const ROLE_USER_СUSTOMER = 'customer';
-
-
     public $idExecute;
     public $idCustomer;
     public $currentStatus;
@@ -24,15 +20,10 @@ class Task {
     public $mapStatus;
     public $mapActions;
 
-    public function __construct($idUser) {
-        if ($idUser == 1) {
-            $this->idExecute = $idUser;
-        }
-        elseif ($idUser == 2) {
-            $this->idCustomer = $idUser;
-        }
-
-        $this->currentStatus =  self::STATUS_NEW;
+    public function __construct($idExecute, $idCustomer) {
+            $this->idExecute = $idExecute;
+            $this->idCustomer = $idCustomer;
+            $this->currentStatus =  self::STATUS_NEW;
     }
 
     public function getMapOfStatus() {
@@ -83,21 +74,21 @@ class Task {
     }
 
     // класс получает статус - возращает доступные действия для полученного статуса
-    public function getAvailableActions($currentStatus) {
+    public function getAvailableActions($currentStatus, $idUser) {
         $this->currentStatus = $currentStatus;
         if ($this->currentStatus == self::STATUS_NEW) {
-            if ($this->idCustomer) {
+            if ($idUser == $this->idCustomer) {
                 $this->currentAction = self::ACTION_CENCEL;
             }
-            elseif ($this->idExecute) {
+            elseif ($idUser == $this->idExecute) {
                 $this->currentAction = self::ACTION_RESPOND;
             }
         }
         elseif ($this->currentStatus == self::STATUS_INWORK) {
-            if ($this->idCustomer) {
+            if ($idUser == $this->idCustomer) {
                 $this->currentAction = self::ACTION_COMPLETE;
             }
-            elseif ($this->idExecute) {
+            elseif ($idUser == $this->idExecute) {
                 $this->currentAction = self::ACTION_REFUSE;
             }
         }
@@ -107,7 +98,8 @@ class Task {
 
     }
 
-$task = new Task(1);
+$task = new Task(11, 123);
 echo($task->getNextStatus('action_respond'));
 echo($task->getNextStatus('action_refuse'));
+echo($task->getAvailableActions('new', 123));
 
