@@ -13,21 +13,28 @@ class Task {
     const ACTION_REFUSE = 'action_refuse';
     const ACTION_COMPLETE = 'action_complete';
 
-    public $idExecute;
-    public $idCustomer;
-    public $currentStatus;
-    public $currentAction;
-    public $mapStatus;
-    public $mapActions;
+    /**
+     * @var
+     */
+    protected $idExecute;
+    protected $idCustomer;
+    protected $currentStatus;
+    protected $currentAction;
 
-    public function __construct($idExecute, $idCustomer) {
+    /**
+     * Task constructor.
+     * @param $idExecute
+     * @param $idCustomer
+     */
+    public function __construct(int $idExecute, int $idCustomer)
+    {
             $this->idExecute = $idExecute;
             $this->idCustomer = $idCustomer;
             $this->currentStatus =  self::STATUS_NEW;
     }
 
-    public function getMapOfStatus() {
-        $this->mapStatus = [
+
+       const GET_MAP_STATUS = [
            self::STATUS_NEW => 'Новое',
            self::STATUS_CENCELED => 'Отменено',
            self::STATUS_INWORK => 'В работе',
@@ -35,23 +42,26 @@ class Task {
            self::STATUS_FAILED => 'Провалено'
         ];
 
-        return $this->mapStatus;
-    }
-
-    public function getMapOfActions() {
-        $this->mapActions = [
+        const GET_MAP_ACTIONS = [
           self::ACTION_CENCEL => 'Отменить',
           self::ACTION_RESPOND => 'Откликнуться',
           self::ACTION_REFUSE => 'Отказаться',
           self::ACTION_COMPLETE => 'Выполненно'
         ];
 
-        return $this->mapActions;
-    }
+
 
     // класс получает действие - возвращает статус который возможен после полученного действия
-    public function getNextStatus($currentAction) {
+    protected function getNextStatus($currentAction): array
+    {
         $this->currentAction = $currentAction;
+
+        if (!isset($this->currentAction))
+        {
+            throw new \LogicException('Передан неверный аргумент в метод');
+        }
+
+
         if ($this->currentStatus == self::STATUS_NEW) {
             if ($this->currentAction == self::ACTION_CENCEL) {
                 $this->currentStatus = self::STATUS_CENCELED;
@@ -74,21 +84,28 @@ class Task {
     }
 
     // класс получает статус - возращает доступные действия для полученного статуса
-    public function getAvailableActions($currentStatus, $idUser) {
+
+    /**
+     * @param $currentStatus
+     * @param $idUser
+     * @return string
+     */
+    protected function getAvailableActions(string $currentStatus, int $idUser): string
+    {
         $this->currentStatus = $currentStatus;
-        if ($this->currentStatus == self::STATUS_NEW) {
-            if ($idUser == $this->idCustomer) {
+        if ($this->currentStatus === self::STATUS_NEW) {
+            if ($idUser === $this->idCustomer) {
                 $this->currentAction = self::ACTION_CENCEL;
             }
-            elseif ($idUser == $this->idExecute) {
+            elseif ($idUser === $this->idExecute) {
                 $this->currentAction = self::ACTION_RESPOND;
             }
         }
-        elseif ($this->currentStatus == self::STATUS_INWORK) {
-            if ($idUser == $this->idCustomer) {
+        elseif ($this->currentStatus === self::STATUS_INWORK) {
+            if ($idUser === $this->idCustomer) {
                 $this->currentAction = self::ACTION_COMPLETE;
             }
-            elseif ($idUser == $this->idExecute) {
+            elseif ($idUser === $this->idExecute) {
                 $this->currentAction = self::ACTION_REFUSE;
             }
         }
@@ -97,9 +114,4 @@ class Task {
     }
 
     }
-
-$task = new Task(11, 123);
-echo($task->getNextStatus('action_respond'));
-echo($task->getNextStatus('action_refuse'));
-echo($task->getAvailableActions('new', 123));
 
