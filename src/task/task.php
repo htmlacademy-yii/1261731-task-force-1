@@ -34,25 +34,31 @@ class Task {
     }
 
 
-       const GET_MAP_STATUS = [
+    const GET_MAP_STATUS = [
            self::STATUS_NEW => 'Новое',
            self::STATUS_CENCELED => 'Отменено',
            self::STATUS_INWORK => 'В работе',
            self::STATUS_COMPLETED => 'Выполнено',
            self::STATUS_FAILED => 'Провалено'
-        ];
+    ];
 
-        const GET_MAP_ACTIONS = [
+    const GET_MAP_ACTIONS = [
           self::ACTION_CENCEL => 'Отменить',
           self::ACTION_RESPOND => 'Откликнуться',
           self::ACTION_REFUSE => 'Отказаться',
           self::ACTION_COMPLETE => 'Выполненно'
-        ];
+    ];
 
+    const ACTION_TO_STATUS_MAP = [
+        self::ACTION_CENCEL => [self::STATUS_CENCELED],
+        self::ACTION_RESPOND => [self::STATUS_INWORK],
+        self::ACTION_COMPLETE => [self::STATUS_COMPLETED],
+        self::ACTION_REFUSE => [self::STATUS_FAILED]
 
+    ];
 
     // класс получает действие - возвращает статус который возможен после полученного действия
-    protected function getNextStatus($currentAction): array
+    public function getNextStatus($currentAction): array
     {
         $this->currentAction = $currentAction;
 
@@ -61,8 +67,8 @@ class Task {
             throw new \LogicException('Передан неверный аргумент в метод');
         }
 
-        return self::GET_MAP_STATUS[$this->currentAction];
-        
+        return self::ACTION_TO_STATUS_MAP[$this->currentAction];
+
     }
 
     // класс получает статус - возращает доступные действия для полученного статуса
