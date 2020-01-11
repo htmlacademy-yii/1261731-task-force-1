@@ -61,26 +61,8 @@ class Task {
             throw new \LogicException('Передан неверный аргумент в метод');
         }
 
-
-        if ($this->currentStatus == self::STATUS_NEW) {
-            if ($this->currentAction == self::ACTION_CENCEL) {
-                $this->currentStatus = self::STATUS_CENCELED;
-            }
-            elseif ($this->currentAction == self::ACTION_RESPOND) {
-                $this->currentStatus = self::STATUS_INWORK;
-            }
-        }
-        elseif ($this->currentStatus == self::STATUS_INWORK) {
-            if ($this->currentAction == self::STATUS_COMPLETED) {
-                $this->currentStatus = self::STATUS_COMPLETED;
-            }
-            elseif ($this->currentAction == self::ACTION_REFUSE) {
-                $this->currentStatus = self::STATUS_FAILED;
-            }
-        }
-
-        return $this->currentStatus;
-
+        return self::GET_MAP_STATUS[$this->currentAction];
+        
     }
 
     // класс получает статус - возращает доступные действия для полученного статуса
