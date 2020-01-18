@@ -1,5 +1,6 @@
 <?php
 
+
 class Task {
 
     const STATUS_NEW = 'new';
@@ -78,7 +79,7 @@ class Task {
      * @param $idUser
      * @return string
      */
-    protected function getAvailableActions(string $currentStatus, int $idUser): string
+    public function getAvailableActions(string $currentStatus, int $idUser): string
     {
         $this->currentStatus = $currentStatus;
         if ($this->currentStatus === self::STATUS_NEW) {
