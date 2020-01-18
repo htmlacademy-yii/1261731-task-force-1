@@ -25,11 +25,17 @@ class TaskTest extends TestCase
 
     }
 
-    public function testGetAvailableActions()
+    public function testGetAvailableActionsForCustomer()
     {
         $this->assertEquals(Task::ACTION_CENCEL, $this->task->getAvailableActions(Task::STATUS_NEW, 44));
+        $this->assertEquals(Task::ACTION_COMPLETE, $this->task->getAvailableActions(Task::STATUS_INWORK, 44));
     }
 
+    public function testGetAvailableActionsForExecuter()
+    {
+        $this->assertEquals(Task::ACTION_RESPOND, $this->task->getAvailableActions(Task::STATUS_NEW, 33));
+        $this->assertEquals(Task::ACTION_REFUSE, $this->task->getAvailableActions(Task::STATUS_INWORK, 33));
+    }
 
 
 }
