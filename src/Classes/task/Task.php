@@ -1,6 +1,6 @@
 <?php
-
 namespace App;
+
 class Task {
 
     const STATUS_NEW = 'new';
@@ -51,15 +51,14 @@ class Task {
     ];
 
     const ACTION_TO_STATUS_MAP = [
-        self::ACTION_CENCEL => [self::STATUS_CENCELED],
-        self::ACTION_RESPOND => [self::STATUS_INWORK],
-        self::ACTION_COMPLETE => [self::STATUS_COMPLETED],
-        self::ACTION_REFUSE => [self::STATUS_FAILED]
-
+        self::ACTION_CENCEL => self::STATUS_CENCELED,
+        self::ACTION_RESPOND => self::STATUS_INWORK,
+        self::ACTION_COMPLETE => self::STATUS_COMPLETED,
+        self::ACTION_REFUSE => self::STATUS_FAILED
     ];
 
     // класс получает действие - возвращает статус который возможен после полученного действия
-    public function getNextStatus($currentAction): array
+    public function getNextStatus($currentAction)
     {
         $this->currentAction = $currentAction;
 
@@ -79,7 +78,7 @@ class Task {
      * @param $idUser
      * @return string
      */
-    protected function getAvailableActions(string $currentStatus, int $idUser): string
+    public function getAvailableActions(string $currentStatus, int $idUser): string
     {
         $this->currentStatus = $currentStatus;
         if ($this->currentStatus === self::STATUS_NEW) {
@@ -102,5 +101,5 @@ class Task {
         return $this->currentAction;
     }
 
-    }
+}
 
