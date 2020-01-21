@@ -100,6 +100,5 @@ class Task {
 
         return $this->currentAction;
     }
-
 }
 
