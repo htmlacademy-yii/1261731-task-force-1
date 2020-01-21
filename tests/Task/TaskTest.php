@@ -34,5 +34,4 @@ class TaskTest extends TestCase
         $this->assertEquals(Task::ACTION_REFUSE, $this->task->getAvailableActions(Task::STATUS_INWORK, 33));
     }
 
-
 }
