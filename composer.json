@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "name": "cp37547/public_html",
+=======
+    "name": "digma/task-force-1",
+>>>>>>> db0a23f64691a2cd277d688c2425f4bd010c8648
     "description": "Study project on Yii2",
     "type": "project",
     "authors": [
