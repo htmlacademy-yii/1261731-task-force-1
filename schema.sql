@@ -15,8 +15,7 @@ CREATE TABLE cities (
     id                INT    UNSIGNED  NOT NULL  AUTO_INCREMENT,
     name              VARCHAR (50),
     created_at        TIMESTAMP          NOT NULL,
-    updated_at        TIMESTAMP          NOT NULL,
-                      UNIQUE (name)
+    updated_at        TIMESTAMP          NOT NULL
 );
 CREATE TABLE users (
     PRIMARY KEY (id),
@@ -32,12 +31,20 @@ CREATE TABLE users (
     is_notefecation_enabled        TINYINT(1),
     show_contacts       TINYINT(1),
     show_profile        TINYINT(1),
-    executor            TINYINT(1),
     city_id             INT   UNSIGNED,
     created_at          TIMESTAMP          NOT NULL,
     updated_at          TIMESTAMP          NOT NULL,
                         UNIQUE (email),
                         FOREIGN KEY (city_id)        REFERENCES cities (id)
+);
+CREATE TABLE photos_of_works (
+    PRIMARY KEY (id),
+    id               INT          UNSIGNED NOT NULL  AUTO_INCREMENT,
+    path_file        VARCHAR (255),
+    user_id          INT          UNSIGNED NOT NULL,
+    created_at       TIMESTAMP               NOT NULL,
+    updated_at       TIMESTAMP               NOT NULL,
+                     FOREIGN KEY (user_id)  REFERENCES users (id)
 );
 CREATE TABLE specialization_user (
     PRIMARY KEY (specialization_id, user_id),
@@ -62,12 +69,11 @@ CREATE TABLE tasks (
     description       TEXT                  NOT NULL,
     category_id       INT          UNSIGNED NOT NULL,
     current_executor_id INT        UNSIGNED NOT NULL,
-    path_file         VARCHAR (255),
     status            VARCHAR (255)         NOT NULL,
     city_id           INT   UNSIGNED,
     latitude          INT   UNSIGNED,
     longitude         INT   UNSIGNED,
-    repayment         DECIMAL (12, 2),
+    budget            DECIMAL (12, 2),
     date_finished     DATETIME,
     created_at        TIMESTAMP               NOT NULL,
     updated_at        TIMESTAMP               NOT NULL,
@@ -76,6 +82,15 @@ CREATE TABLE tasks (
                       FOREIGN KEY (city_id)       REFERENCES cities (id),
                       FOREIGN KEY (current_executor_id) REFERENCES users (id)
 );
+CREATE TABLE files (
+    PRIMARY KEY (id),
+    id               INT          UNSIGNED NOT NULL  AUTO_INCREMENT,
+    path_file        VARCHAR (255),
+    task_id          INT          UNSIGNED NOT NULL,
+    created_at       TIMESTAMP               NOT NULL,
+    updated_at       TIMESTAMP               NOT NULL,
+                     FOREIGN KEY (task_id)  REFERENCES tasks (id)
+);
 CREATE TABLE comments (
     PRIMARY KEY (id),
     id                 INT      UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -83,12 +98,14 @@ CREATE TABLE comments (
     task_id            INT      UNSIGNED NOT NULL,
     comment            TEXT              NOT NULL,
     rating             INT   UNSIGNED,
+    author_id         INT    UNSIGNED     NOT NULL,
     created_at         TIMESTAMP          NOT NULL,
     updated_at         TIMESTAMP          NOT NULL,
                        FOREIGN KEY (user_id)              REFERENCES users (id),
+                       FOREIGN KEY (author_id)            REFERENCES users (id),
                        FOREIGN KEY (task_id)              REFERENCES tasks (id)
 );
-CREATE TABLE responses (
+CREATE TABLE replies (
     PRIMARY KEY (id),
     id                 INT       UNSIGNED NOT NULL  AUTO_INCREMENT,
     user_id            INT       UNSIGNED NOT NULL,
