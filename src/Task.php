@@ -84,7 +84,7 @@ class Task {
         $this->currentStatus = $currentStatus;
         if ($this->currentStatus === self::STATUS_NEW) {
             if ($idUser === $this->idCustomer) {
-                $this->currentAction = self::ACTION_CENCEL;
+                $this->currentAction = self::ACTION_CENCEL; //заменить ACTION_CENCEL на вызов метода
             }
             elseif ($idUser === $this->idExecute) {
                 $this->currentAction = self::ACTION_RESPOND;
