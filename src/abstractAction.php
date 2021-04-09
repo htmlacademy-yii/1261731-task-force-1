@@ -5,6 +5,17 @@
 для текущего статуса задания и роли пользователя. Набор доступных действий
 ограничивается не только текущим статусом, но еще и ролью пользователя.
 
+Задание в статусе «В работе»:
+1. может иметь действие «Отказаться», но сделать это может только пользователь,
+   чей id совпадает с id исполнителя задания. -> приводит к статусу провалено.
+2. может иметь действие "Выполнено", но сделать это может только пользователь, чей
+   id совпадает с id заказчика задания. -> приводит к статусу выполнено.
+Задание в статусе «Новое»:
+1. может иметь действие "Отменить", но сделать это может только только пользователь, чей
+   id совпадает с id заказчика задания. -> приводит к статусу отменено.
+2. может иметь действие "Откликнуться", но сделать это может только только пользователь,
+   чей id совпадает с id исполнитель задания. -> приводит к статусу в работе.
+
 Порядок действий
 1. Опишите абстрактный класс-действие AbstractAction.
    Класс AbstractAction - отвечает за одно действий. Например, «Отмена».
@@ -47,19 +58,86 @@ id текущего пользователя.
 отменить задание можно только если оно новое, и только если это действие выполняет
 его автор.
 
-Задание в статусе «В работе» может иметь действие «Отказаться», но сделать это может только пользователь, чей id совпадает с id исполнителя задания.
-Задание в статусе «Новое» можно отменить, но сделать это может только автор задания.
-Проверка
 =====================================================================================
 */
 abstract class AbstractAction {
+    const ACTION_CENCEL = 'action_cencel';
+    const ACTION_RESPOND = 'action_respond';
+    const ACTION_REFUSE = 'action_refuse';
+    const ACTION_COMPLETE = 'action_complete';
 
-    public function __construct(int $idUser, string $currentStatusTask) {
-        $this->idUser = $idUser;
+    const GET_MAP_ACTIONS = [
+        self::ACTION_CENCEL => 'Отменить',
+        self::ACTION_RESPOND => 'Откликнуться',
+        self::ACTION_REFUSE => 'Отказаться',
+        self::ACTION_COMPLETE => 'Выполненно'
+  ];
+
+    protected $idCurrentUser;
+    protected $idCustomer;
+    protected $idExecute;
+    protected $currentStatusTask;
+    protected $result;
+    protected $alterNameAction;
+
+    public function __construct(int $idCurrentUser, int $idCustomer, int $idExecute, string $currentStatusTask) {
+        $this->idCurrentUser = $idCurrentUser;
+        $this->idCustomer = $idCustomer;
+        $this->idExecute = $idExecute;
         $this->currentStatusTask = $currentStatusTask;
     }
 
     abstract public function getNameAction();
     abstract public function getAlterNameAction();
     abstract public function validateAcccessUser();
+}
+
+class CencelAction extends AbstractAction {
+
+    public function __construct() {
+        $this->alterNameAction = self::ACTION_CENCEL;
+    }
+
+    public function validateAcccessUser() {
+        if ($this->idCurrentUser === $this->idCustomer) {
+            $this->result = true;
+        } else {
+            $this->result = false;
+        }
+
+        return $this->result;
+    }
+
+    public function getNameAction() {
+        return self::GET_MAP_ACTIONS[$this->alterNameAction];
+    }
+
+    public function getAlterNameAction() {
+        return $this->alterNameAction;
+    }
+}
+
+class RespondAction extends AbstractAction {
+
+    public function __construct() {
+        $this->alterNameAction = self::ACTION_RESPOND;
+    }
+
+    public function validateAcccessUser() {
+        if ($this->idCurrentUser === $this->idCustomer) {
+            $this->result = true;
+        } else {
+            $this->result = false;
+        }
+
+        return $this->result;
+    }
+
+    public function getNameAction() {
+        return self::GET_MAP_ACTIONS[$this->alterNameAction];
+    }
+
+    public function getAlterNameAction() {
+        return $this->alterNameAction;
+    }
 }
