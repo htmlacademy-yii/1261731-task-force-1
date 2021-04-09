@@ -76,68 +76,16 @@ abstract class AbstractAction {
     protected $idCurrentUser;
     protected $idCustomer;
     protected $idExecute;
-    protected $currentStatusTask;
     protected $result;
     protected $alterNameAction;
 
-    public function __construct(int $idCurrentUser, int $idCustomer, int $idExecute, string $currentStatusTask) {
+    public function __construct(int $idCurrentUser, int $idCustomer, int $idExecute) {
         $this->idCurrentUser = $idCurrentUser;
         $this->idCustomer = $idCustomer;
         $this->idExecute = $idExecute;
-        $this->currentStatusTask = $currentStatusTask;
     }
 
     abstract public function getNameAction();
     abstract public function getAlterNameAction();
     abstract public function validateAcccessUser();
-}
-
-class CencelAction extends AbstractAction {
-
-    public function __construct() {
-        $this->alterNameAction = self::ACTION_CENCEL;
-    }
-
-    public function validateAcccessUser() {
-        if ($this->idCurrentUser === $this->idCustomer) {
-            $this->result = true;
-        } else {
-            $this->result = false;
-        }
-
-        return $this->result;
-    }
-
-    public function getNameAction() {
-        return self::GET_MAP_ACTIONS[$this->alterNameAction];
-    }
-
-    public function getAlterNameAction() {
-        return $this->alterNameAction;
-    }
-}
-
-class RespondAction extends AbstractAction {
-
-    public function __construct() {
-        $this->alterNameAction = self::ACTION_RESPOND;
-    }
-
-    public function validateAcccessUser() {
-        if ($this->idCurrentUser === $this->idCustomer) {
-            $this->result = true;
-        } else {
-            $this->result = false;
-        }
-
-        return $this->result;
-    }
-
-    public function getNameAction() {
-        return self::GET_MAP_ACTIONS[$this->alterNameAction];
-    }
-
-    public function getAlterNameAction() {
-        return $this->alterNameAction;
-    }
 }

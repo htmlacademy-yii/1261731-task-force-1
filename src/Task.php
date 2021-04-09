@@ -27,6 +27,8 @@ class Task {
     protected $currentAction;
     protected $cencelAction;
     protected $respondAction;
+    protected $completedAction;
+    protected $refuseAction;
 
     /**
      * Task constructor.
@@ -43,6 +45,8 @@ class Task {
 
             $this->cencelAction = new CencelAction($this->idCurrentUser, $this->idExecute, $this->idCustomer);
             $this->respondAction = new RespondAction($this->idCurrentUser, $this->idExecute, $this->idCustomer);
+            $this->completedAction = new RespondAction($this->idCurrentUser, $this->idExecute, $this->idCustomer);
+            $this->refuseAction = new RefuseAction($this->idCurrentUser, $this->idExecute, $this->idCustomer);
     }
 
 
