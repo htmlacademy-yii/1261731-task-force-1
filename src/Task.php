@@ -1,5 +1,5 @@
 <?php
-namespace App;
+require_once "vendor/autoload.php";
 
 class Task {
 
@@ -102,10 +102,10 @@ class Task {
         if ($this->currentStatus === self::STATUS_NEW) {
 
             if($cencelAction->validateAcccessUser()) {
-                $this->currentStatus = $cencelAction->getAlterNameAction();
+                $this->currentAction = $cencelAction->getAlterNameAction();
             }
             elseif ($respondAction->validateAcccessUser()) {
-                $this->currentStatus = $respondAction->getAlterNameAction();
+                $this->currentAction = $respondAction->getAlterNameAction();
             }
 
             /*if ($idUser === $this->idCustomer) {
@@ -116,11 +116,11 @@ class Task {
             }*/
         }
         elseif ($this->currentStatus === self::STATUS_INWORK) {
-            if ($idUser === $this->idCustomer) {
-                $this->currentAction = self::ACTION_COMPLETE;
+            if ($cencelAction->validateAcccessUser()) {
+                $this->currentAction = $completedAction->getAlterNameAction();
             }
-            elseif ($idUser === $this->idExecute) {
-                $this->currentAction = self::ACTION_REFUSE;
+            elseif ($cencelAction->validateAcccessUser()) {
+                $this->currentAction = $refuseAction->getAlterNameAction();
             }
         }
 

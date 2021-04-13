@@ -1,4 +1,6 @@
 <?php
+require_once "vendor/autoload.php";
+
 class CencelAction extends AbstractAction {
 
 public function __construct() {

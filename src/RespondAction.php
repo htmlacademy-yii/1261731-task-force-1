@@ -1,4 +1,6 @@
 <?php
+require_once "vendor/autoload.php";
+
 class RespondAction extends AbstractAction {
 
 public function __construct() {
