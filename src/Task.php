@@ -1,130 +1,103 @@
 <?php
-require_once "vendor/autoload.php";
+namespace App;
 
 class Task {
 
     const STATUS_NEW = 'new';
-    const STATUS_CENCELED = 'cenceled';
+    const STATUS_CANCELED = 'canceled';
     const STATUS_INWORK = 'inwork';
     const STATUS_COMPLETED = 'completed';
     const STATUS_FAILED = 'failed';
 
-    //заменить на вызовы методов
-    /*
     const ACTION_CENCEL = 'action_cencel';
     const ACTION_RESPOND = 'action_respond';
     const ACTION_REFUSE = 'action_refuse';
     const ACTION_COMPLETE = 'action_complete';
-    */
 
     /**
      * @var
      */
-    protected $idExecute;
-    protected $idCustomer;
-    protected $idCurrentUser;
-    protected $currentStatus;
-    protected $currentAction;
-    protected $cencelAction;
-    protected $respondAction;
-    protected $completedAction;
-    protected $refuseAction;
+    protected $executerId;
+    protected $customerId;
+    protected $statusCurrent;
+    protected $actionCurrent;
 
     /**
      * Task constructor.
-     * @param int $idCurrentUser
-     * @param int $idExecute
-     * @param int $idCustomer
+     * @param $executerId
+     * @param $customerId
      */
-    public function __construct(int $idCurrentUser, int $idExecute, int $idCustomer)
+    public function __construct(int $executerId, int $customerId)
     {
-            $this->idExecute = $idExecute;
-            $this->idCustomer = $idCustomer;
-            $this->$idCurrentUser = $idCurrentUser;
-            $this->currentStatus =  self::STATUS_NEW;
-
-            $this->cencelAction = new CencelAction($this->idCurrentUser, $this->idExecute, $this->idCustomer);
-            $this->respondAction = new RespondAction($this->idCurrentUser, $this->idExecute, $this->idCustomer);
-            $this->completedAction = new RespondAction($this->idCurrentUser, $this->idExecute, $this->idCustomer);
-            $this->refuseAction = new RefuseAction($this->idCurrentUser, $this->idExecute, $this->idCustomer);
+            $this->executerId = $executerId;
+            $this->customerId = $customerId;
+            $this->statusCurrent =  self::STATUS_NEW;
     }
 
 
     const GET_MAP_STATUS = [
            self::STATUS_NEW => 'Новое',
-           self::STATUS_CENCELED => 'Отменено',
+           self::STATUS_CANCELED => 'Отменено',
            self::STATUS_INWORK => 'В работе',
            self::STATUS_COMPLETED => 'Выполнено',
            self::STATUS_FAILED => 'Провалено'
     ];
-/*
+
     const GET_MAP_ACTIONS = [
           self::ACTION_CENCEL => 'Отменить',
           self::ACTION_RESPOND => 'Откликнуться',
           self::ACTION_REFUSE => 'Отказаться',
           self::ACTION_COMPLETE => 'Выполненно'
     ];
-*/
+
     const ACTION_TO_STATUS_MAP = [
-        self::ACTION_CENCEL => self::STATUS_CENCELED,
+        self::ACTION_CENCEL => self::STATUS_CANCELED,
         self::ACTION_RESPOND => self::STATUS_INWORK,
         self::ACTION_COMPLETE => self::STATUS_COMPLETED,
         self::ACTION_REFUSE => self::STATUS_FAILED
     ];
 
-    // метод получает действие - возвращает статус который возможен после полученного действия
-    public function getNextStatus($currentAction)
+    // класс получает действие - возвращает статус который возможен после полученного действия
+    public function getNextStatus($actionCurrent)
     {
-        $this->currentAction = $currentAction;
+        $this->actionCurrent = $actionCurrent;
 
-        if (!isset($this->currentAction))
+        if (!isset($this->actionCurrent))
         {
             throw new \LogicException('Передан неверный аргумент в метод');
         }
 
-        return self::ACTION_TO_STATUS_MAP[$this->currentAction];
+        return self::ACTION_TO_STATUS_MAP[$this->actionCurrent];
 
     }
 
-// Метод списка доступных действий.
-// метод получает статус - возращает доступные действия для полученного статуса
+    // класс получает статус - возращает доступные действия для полученного статуса
 
     /**
-     * @param $currentStatus
-     * @param $idUser
+     * @param $statusCurrent
+     * @param $userId
      * @return string
      */
-    public function getAvailableActions(string $currentStatus, int $idUser): string
+    public function getAvailableActions(string $statusCurrent, int $userId): string
     {
-        $this->currentStatus = $currentStatus;
-
-
-        if ($this->currentStatus === self::STATUS_NEW) {
-
-            if($cencelAction->validateAcccessUser()) {
-                $this->currentAction = $cencelAction->getAlterNameAction();
+        $this->statusCurrent = $statusCurrent;
+        if ($this->statusCurrent === self::STATUS_NEW) {
+            if ($userId === $this->customerId) {
+                $this->actionCurrent = self::ACTION_CENCEL;
             }
-            elseif ($respondAction->validateAcccessUser()) {
-                $this->currentAction = $respondAction->getAlterNameAction();
+            elseif ($userId === $this->executerId) {
+                $this->actionCurrent = self::ACTION_RESPOND;
             }
-
-            /*if ($idUser === $this->idCustomer) {
-                $this->currentAction = self::ACTION_CENCEL; //заменить ACTION_CENCEL на вызов метода
-            }
-            elseif ($idUser === $this->idExecute) {
-                $this->currentAction = self::ACTION_RESPOND;
-            }*/
         }
-        elseif ($this->currentStatus === self::STATUS_INWORK) {
-            if ($cencelAction->validateAcccessUser()) {
-                $this->currentAction = $completedAction->getAlterNameAction();
+        elseif ($this->statusCurrent === self::STATUS_INWORK) {
+            if ($userId === $this->customerId) {
+                $this->actionCurrent = self::ACTION_COMPLETE;
             }
-            elseif ($cencelAction->validateAcccessUser()) {
-                $this->currentAction = $refuseAction->getAlterNameAction();
+            elseif ($userId === $this->executerId) {
+                $this->actionCurrent = self::ACTION_REFUSE;
             }
         }
 
-        return $this->currentAction;
+        return $this->actionCurrent;
     }
 }
-
