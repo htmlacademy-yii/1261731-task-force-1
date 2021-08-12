@@ -14,6 +14,29 @@ class Task {
     const ACTION_REFUSE = 'action_refuse';
     const ACTION_COMPLETE = 'action_complete';
 
+const GET_MAP_STATUS = [
+        self::STATUS_NEW => 'Новое',
+        self::STATUS_CANCELED => 'Отменено',
+        self::STATUS_INWORK => 'В работе',
+        self::STATUS_COMPLETED => 'Выполнено',
+        self::STATUS_FAILED => 'Провалено'
+ ];
+
+ const GET_MAP_ACTIONS = [
+       self::ACTION_CENCEL => 'Отменить',
+       self::ACTION_RESPOND => 'Откликнуться',
+       self::ACTION_REFUSE => 'Отказаться',
+       self::ACTION_COMPLETE => 'Выполненно'
+ ];
+
+ const ACTION_TO_STATUS_MAP = [
+     self::ACTION_CENCEL => self::STATUS_CANCELED,
+     self::ACTION_RESPOND => self::STATUS_INWORK,
+     self::ACTION_COMPLETE => self::STATUS_COMPLETED,
+     self::ACTION_REFUSE => self::STATUS_FAILED
+ ];
+
+
     /**
      * @var
      */
@@ -35,29 +58,7 @@ class Task {
     }
 
 
-    const GET_MAP_STATUS = [
-           self::STATUS_NEW => 'Новое',
-           self::STATUS_CANCELED => 'Отменено',
-           self::STATUS_INWORK => 'В работе',
-           self::STATUS_COMPLETED => 'Выполнено',
-           self::STATUS_FAILED => 'Провалено'
-    ];
-
-    const GET_MAP_ACTIONS = [
-          self::ACTION_CENCEL => 'Отменить',
-          self::ACTION_RESPOND => 'Откликнуться',
-          self::ACTION_REFUSE => 'Отказаться',
-          self::ACTION_COMPLETE => 'Выполненно'
-    ];
-
-    const ACTION_TO_STATUS_MAP = [
-        self::ACTION_CENCEL => self::STATUS_CANCELED,
-        self::ACTION_RESPOND => self::STATUS_INWORK,
-        self::ACTION_COMPLETE => self::STATUS_COMPLETED,
-        self::ACTION_REFUSE => self::STATUS_FAILED
-    ];
-
-    // класс получает действие - возвращает статус который возможен после полученного действия
+    // метод получает действие - возвращает статус который возможен после полученного действия
     public function getNextStatus($actionCurrent)
     {
         $this->actionCurrent = $actionCurrent;
@@ -71,7 +72,7 @@ class Task {
 
     }
 
-    // класс получает статус - возращает доступные действия для полученного статуса
+    // метод получает статус - возращает доступные действия для полученного статуса
 
     /**
      * @param $statusCurrent
@@ -81,6 +82,7 @@ class Task {
     public function getAvailableActions(string $statusCurrent, int $userId): string
     {
         $this->statusCurrent = $statusCurrent;
+
         if ($this->statusCurrent === self::STATUS_NEW) {
             if ($userId === $this->customerId) {
                 $this->actionCurrent = self::ACTION_CENCEL;
