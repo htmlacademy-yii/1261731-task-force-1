@@ -3,15 +3,16 @@ require_once "vendor/autoload.php";
 
 class CencelAction extends AbstractAction {
 
-public function __construct() {
+public function __construct(int $idCurrentUser, int $idCustomer, int $idExecute) {
+    parent::__construct(int $idCurrentUser, int $idCustomer, int $idExecute);
     $this->alterNameAction = self::ACTION_CENCEL;
 }
 
 public function validateAcccessUser() {
+    $this->result = false;
+
     if ($this->idCurrentUser === $this->idCustomer) {
         $this->result = true;
-    } else {
-        $this->result = false;
     }
 
     return $this->result;

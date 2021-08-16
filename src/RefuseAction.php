@@ -8,10 +8,10 @@ public function __construct() {
 }
 
 public function validateAcccessUser() {
+    $this->result = false;
+
     if ($this->idCurrentUser === $this->idCustomer) {
         $this->result = true;
-    } else {
-        $this->result = false;
     }
 
     return $this->result;
