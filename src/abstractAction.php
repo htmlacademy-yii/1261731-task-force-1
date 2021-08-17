@@ -62,29 +62,10 @@ id текущего пользователя.
 =====================================================================================
 */
 abstract class AbstractAction {
-    const ACTION_CENCEL = 'action_cencel';
-    const ACTION_RESPOND = 'action_respond';
-    const ACTION_REFUSE = 'action_refuse';
-    const ACTION_COMPLETE = 'action_complete';
-
-    const GET_MAP_ACTIONS = [
-        self::ACTION_CENCEL => 'Отменить',
-        self::ACTION_RESPOND => 'Откликнуться',
-        self::ACTION_REFUSE => 'Отказаться',
-        self::ACTION_COMPLETE => 'Выполненно'
-  ];
 
     protected $idCurrentUser;
     protected $idCustomer;
     protected $idExecute;
-    protected $result;
-    protected $alterNameAction;
-
-    public function __construct(int $idCurrentUser, int $idCustomer, int $idExecute) {
-        $this->idCurrentUser = $idCurrentUser;
-        $this->idCustomer = $idCustomer;
-        $this->idExecute = $idExecute;
-    }
 
     abstract public function getNameAction();
     abstract public function getAlterNameAction();

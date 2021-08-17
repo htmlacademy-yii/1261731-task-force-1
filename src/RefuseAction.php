@@ -3,25 +3,24 @@ require_once "vendor/autoload.php";
 
 class CompleteAction extends AbstractAction {
 
-public function __construct() {
-    $this->alterNameAction = self::ACTION_REFUSE;
-}
+    public function validateAcccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
 
-public function validateAcccessUser() {
-    $this->result = false;
+        $this->idCurrentUser = $idCurrentUser;
+        $this->idCustomer = $idCustomer;
+        $this->idExecute = $idExecute;
 
-    if ($this->idCurrentUser === $this->idCustomer) {
-        $this->result = true;
+        if ($this->idCurrentUser === $this->idExecute) {
+            return true;
+        }
+
+        return false;
     }
 
-    return $this->result;
-}
+    public function getNameAction() {
+        return 'Отказаться';
+    }
 
-public function getNameAction() {
-    return self::GET_MAP_ACTIONS[$this->alterNameAction];
-}
-
-public function getAlterNameAction() {
-    return $this->alterNameAction;
-}
+    public function getAlterNameAction() {
+        return 'action_refuse';
+    }
 }

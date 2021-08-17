@@ -3,26 +3,24 @@ require_once "vendor/autoload.php";
 
 class CencelAction extends AbstractAction {
 
-public function __construct(int $idCurrentUser, int $idCustomer, int $idExecute) {
-    parent::__construct(int $idCurrentUser, int $idCustomer, int $idExecute);
-    $this->alterNameAction = self::ACTION_CENCEL;
+    public function validateAcccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
+
+        $this->idCurrentUser = $idCurrentUser;
+        $this->idCustomer = $idCustomer;
+        $this->idExecute = $idExecute;
+
+        if ($this->idCurrentUser === $this->idCustomer) {
+            return true;
+        }
+
+        return false;
 }
 
-public function validateAcccessUser() {
-    $this->result = false;
-
-    if ($this->idCurrentUser === $this->idCustomer) {
-        $this->result = true;
+    public function getNameAction() {
+        return 'Отменить';
     }
 
-    return $this->result;
-}
-
-public function getNameAction() {
-    return self::GET_MAP_ACTIONS[$this->alterNameAction];
-}
-
-public function getAlterNameAction() {
-    return $this->alterNameAction;
-}
+    public function getAlterNameAction() {
+        return 'action_cencel';
+    }
 }

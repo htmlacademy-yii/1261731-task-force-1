@@ -3,16 +3,16 @@ namespace App;
 
 class Task {
 
+    const ACTION_CENCEL = new CencelAction;
+    const ACTION_RESPOND = new RespondAction;
+    const ACTION_REFUSE = new CompleteAction;
+    const ACTION_COMPLETE = new CompleteAction;
+
     const STATUS_NEW = 'new';
     const STATUS_CANCELED = 'canceled';
     const STATUS_INWORK = 'inwork';
     const STATUS_COMPLETED = 'completed';
     const STATUS_FAILED = 'failed';
-
-    const ACTION_CENCEL = 'action_cencel';
-    const ACTION_RESPOND = 'action_respond';
-    const ACTION_REFUSE = 'action_refuse';
-    const ACTION_COMPLETE = 'action_complete';
 
 const GET_MAP_STATUS = [
         self::STATUS_NEW => 'Новое',
@@ -20,13 +20,6 @@ const GET_MAP_STATUS = [
         self::STATUS_INWORK => 'В работе',
         self::STATUS_COMPLETED => 'Выполнено',
         self::STATUS_FAILED => 'Провалено'
- ];
-
- const GET_MAP_ACTIONS = [
-       self::ACTION_CENCEL => 'Отменить',
-       self::ACTION_RESPOND => 'Откликнуться',
-       self::ACTION_REFUSE => 'Отказаться',
-       self::ACTION_COMPLETE => 'Выполненно'
  ];
 
  const ACTION_TO_STATUS_MAP = [
@@ -42,6 +35,7 @@ const GET_MAP_STATUS = [
      */
     protected $executerId;
     protected $customerId;
+    protected $idCurrentUser;
     protected $statusCurrent;
     protected $actionCurrent;
 
@@ -50,10 +44,11 @@ const GET_MAP_STATUS = [
      * @param $executerId
      * @param $customerId
      */
-    public function __construct(int $executerId, int $customerId)
+    public function __construct(int $executerId, int $customerId, int $idCurrentUser)
     {
             $this->executerId = $executerId;
             $this->customerId = $customerId;
+            $this->idCurrentUser = $idCurrentUser;
             $this->statusCurrent =  self::STATUS_NEW;
     }
 
@@ -79,23 +74,23 @@ const GET_MAP_STATUS = [
      * @param $userId
      * @return string
      */
-    public function getAvailableActions(string $statusCurrent, int $userId): string
+    public function getAvailableActions(string $statusCurrent): object
     {
         $this->statusCurrent = $statusCurrent;
 
         if ($this->statusCurrent === self::STATUS_NEW) {
-            if ($userId === $this->customerId) {
+            if (self::ACTION_CENCEL->validateAcccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
                 $this->actionCurrent = self::ACTION_CENCEL;
             }
-            elseif ($userId === $this->executerId) {
+            elseif (self::ACTION_RESPOND->validateAcccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
                 $this->actionCurrent = self::ACTION_RESPOND;
             }
         }
         elseif ($this->statusCurrent === self::STATUS_INWORK) {
-            if ($userId === $this->customerId) {
+            if (self::ACTION_COMPLETE->validateAcccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
                 $this->actionCurrent = self::ACTION_COMPLETE;
             }
-            elseif ($userId === $this->executerId) {
+            elseif (self::ACTION_REFUSE->validateAcccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
                 $this->actionCurrent = self::ACTION_REFUSE;
             }
         }
