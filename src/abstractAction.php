@@ -1,5 +1,5 @@
 <?php
-require_once "vendor/autoload.php";
+
 /*
 ЗАДАНИЕ
 Добавить главную способность классу Task — определение списка доступных действий
@@ -69,5 +69,5 @@ abstract class AbstractAction {
 
     abstract public function getNameAction();
     abstract public function getAlterNameAction();
-    abstract public function validateAcccessUser();
+    abstract public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute);
 }
