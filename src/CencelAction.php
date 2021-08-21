@@ -1,5 +1,5 @@
 <?php
-require_once "AbstractAction.php";
+namespace App;
 
 class CencelAction extends AbstractAction {
 

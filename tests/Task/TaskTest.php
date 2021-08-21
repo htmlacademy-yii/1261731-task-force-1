@@ -10,7 +10,7 @@ class TaskTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->task = new Task(33, 44);
+        $this->task = new Task(33, 44, 15);
     }
 
     protected function tearDown(): void
