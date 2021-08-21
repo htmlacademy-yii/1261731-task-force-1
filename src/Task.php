@@ -50,7 +50,7 @@ const GET_MAP_STATUS = [
      * @param $executerId
      * @param $customerId
      */
-    public function __construct(int $executerId, int $customerId, int $idCurrentUser)
+    public function __construct(int $idCurrentUser, int $customerId, int $executerId)
     {
             $this->executerId = $executerId;
             $this->customerId = $customerId;
@@ -92,21 +92,21 @@ const GET_MAP_STATUS = [
 
         if ($this->statusCurrent === self::STATUS_NEW) {
             if ($this->actionCencel->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent1 = $this->actionCencel;
+                $this->actionCurrent = $this->actionCencel;
             }
             elseif ($this->actionRespond->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent1 = $this->actionRespond;
+                $this->actionCurrent = $this->actionRespond;
             }
         }
         elseif ($this->statusCurrent === self::STATUS_INWORK) {
-            if ($this->actionComplete->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {die($this->statusCurrent);
-                $this->actionCurrent1 = $this->actionComplete;
+            if ($this->actionComplete->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+                $this->actionCurrent = $this->actionComplete;
             }
             elseif ($this->actinRefuse->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent1 = $this->actinRefuse;
+                $this->actionCurrent = $this->actinRefuse;
             }
         }
-        print_r($this->actionCurrent1);
-        return $this->actionCurrent1;
+
+        return $this->actionCurrent;
     }
 }

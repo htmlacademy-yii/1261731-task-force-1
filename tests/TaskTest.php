@@ -8,4 +8,7 @@ $nexStatus = $task->getNextStatus('Откликнуться');
 
 print($nexStatus);
 
-$task->getAvailableActions($nexStatus);
+$object = $task->getAvailableActions($nexStatus);
+print($object->getNameAction());
+
+print_r($object);
