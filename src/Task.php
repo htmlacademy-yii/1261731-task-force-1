@@ -4,14 +4,9 @@ namespace App;
 use App\CencelAction;
 use App\RespondAction;
 use App\CompleteAction;
-use App\CompleteAction;
+use App\RefuseAction;
 
 class Task {
-
-    const ACTION_CENCEL = new CencelAction;
-    const ACTION_RESPOND = new RespondAction;
-    const ACTION_REFUSE = new CompleteAction;
-    const ACTION_COMPLETE = new CompleteAction;
 
     const STATUS_NEW = 'new';
     const STATUS_CANCELED = 'canceled';
@@ -28,21 +23,27 @@ const GET_MAP_STATUS = [
  ];
 
  const ACTION_TO_STATUS_MAP = [
-     self::ACTION_CENCEL => self::STATUS_CANCELED,
-     self::ACTION_RESPOND => self::STATUS_INWORK,
-     self::ACTION_COMPLETE => self::STATUS_COMPLETED,
-     self::ACTION_REFUSE => self::STATUS_FAILED
+     'Отменить' => self::STATUS_CANCELED,
+     'Откликнуться' => self::STATUS_INWORK,
+     'Выполненно' => self::STATUS_COMPLETED,
+     'Отказаться' => self::STATUS_FAILED
  ];
 
 
     /**
      * @var
      */
+    protected $actionCencel;
+    protected $actionRespond;
+    protected $actinRefuse;
+    protected $actionComplete;
+
     protected $executerId;
     protected $customerId;
     protected $idCurrentUser;
     protected $statusCurrent;
     protected $actionCurrent;
+    protected $actionCurrent1;
 
     /**
      * Task constructor.
@@ -55,6 +56,12 @@ const GET_MAP_STATUS = [
             $this->customerId = $customerId;
             $this->idCurrentUser = $idCurrentUser;
             $this->statusCurrent =  self::STATUS_NEW;
+
+            $this->actionCencel = new CencelAction;
+            $this->actionRespond = new RespondAction;
+            $this->actinRefuse = new CompleteAction;
+            $this->actionComplete = new CompleteAction;
+
     }
 
 
@@ -84,22 +91,22 @@ const GET_MAP_STATUS = [
         $this->statusCurrent = $statusCurrent;
 
         if ($this->statusCurrent === self::STATUS_NEW) {
-            if (self::ACTION_CENCEL->validateAcccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = self::ACTION_CENCEL;
+            if ($this->actionCencel->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+                $this->actionCurrent1 = $this->actionCencel;
             }
-            elseif (self::ACTION_RESPOND->validateAcccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = self::ACTION_RESPOND;
+            elseif ($this->actionRespond->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+                $this->actionCurrent1 = $this->actionRespond;
             }
         }
         elseif ($this->statusCurrent === self::STATUS_INWORK) {
-            if (self::ACTION_COMPLETE->validateAcccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = self::ACTION_COMPLETE;
+            if ($this->actionComplete->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {die($this->statusCurrent);
+                $this->actionCurrent1 = $this->actionComplete;
             }
-            elseif (self::ACTION_REFUSE->validateAcccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = self::ACTION_REFUSE;
+            elseif ($this->actinRefuse->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+                $this->actionCurrent1 = $this->actinRefuse;
             }
         }
-
-        return $this->actionCurrent;
+        print_r($this->actionCurrent1);
+        return $this->actionCurrent1;
     }
 }

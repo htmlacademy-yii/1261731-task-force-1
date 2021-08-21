@@ -3,7 +3,7 @@ namespace App;
 
 class RespondAction extends AbstractAction {
 
-    public function validateAcccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
+    public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
 
         $this->idCurrentUser = $idCurrentUser;
         $this->idCustomer = $idCustomer;
