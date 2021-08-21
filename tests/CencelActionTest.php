@@ -1,6 +1,6 @@
 <?php
 use App\CencelAction;
-require_once "vendor/autoload.php";
+require_once "../vendor/autoload.php";
 
 $test = new CencelAction;
 $checkAccess = $test->validateAccessUser(44, 44, 55);
