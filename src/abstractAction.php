@@ -69,6 +69,6 @@ abstract class AbstractAction {
     protected $idExecute;
 
     abstract public function getNameAction();
-    abstract public function getAlterNameAction();
+    abstract public function getInnerNameAction();
     abstract public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute);
 }

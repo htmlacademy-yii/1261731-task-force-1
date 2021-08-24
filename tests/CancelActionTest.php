@@ -1,11 +1,11 @@
 <?php
-use App\CencelAction;
+use App\CancelAction;
 require_once "../vendor/autoload.php";
 
-$test = new CencelAction;
+$test = new CancelAction;
 $checkAccess = $test->validateAccessUser(44, 44, 55);
 $getNameAction = $test->getNameAction();
-$getAlterNameAction = $test->getAlterNameAction();
+$getAlterNameAction = $test->getInnerNameAction();
 
 $results = [
     $checkAccess,

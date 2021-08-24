@@ -1,7 +1,7 @@
 <?php
 namespace App;
 
-use App\CencelAction;
+use App\CancelAction;
 use App\RespondAction;
 use App\CompleteAction;
 use App\RefuseAction;
@@ -14,7 +14,12 @@ class Task {
     const STATUS_COMPLETED = 'completed';
     const STATUS_FAILED = 'failed';
 
-const GET_MAP_STATUS = [
+    const ACTION_CENCEL = 'action_cencel';
+    const ACTION_RESPOND = 'action_respond';
+    const ACTION_REFUSE = 'action_refuse';
+    const ACTION_COMPLETE = 'action_complete';
+
+const STATUS_NAMES = [
         self::STATUS_NEW => 'Новое',
         self::STATUS_CANCELED => 'Отменено',
         self::STATUS_INWORK => 'В работе',
@@ -23,17 +28,17 @@ const GET_MAP_STATUS = [
  ];
 
  const ACTION_TO_STATUS_MAP = [
-     'Отменить' => self::STATUS_CANCELED,
-     'Откликнуться' => self::STATUS_INWORK,
-     'Выполненно' => self::STATUS_COMPLETED,
-     'Отказаться' => self::STATUS_FAILED
+     self::ACTION_CENCEL => self::STATUS_CANCELED,
+     self::ACTION_RESPOND => self::STATUS_INWORK,
+     self::ACTION_COMPLETE => self::STATUS_COMPLETED,
+     self::ACTION_COMPLETE => self::STATUS_FAILED
  ];
 
 
     /**
      * @var
      */
-    protected $actionCencel;
+    protected $actionCancel;
     protected $actionRespond;
     protected $actinRefuse;
     protected $actionComplete;
@@ -57,7 +62,7 @@ const GET_MAP_STATUS = [
             $this->idCurrentUser = $idCurrentUser;
             $this->statusCurrent =  self::STATUS_NEW;
 
-            $this->actionCencel = new CencelAction;
+            $this->actionCancel = new CancelAction;
             $this->actionRespond = new RespondAction;
             $this->actinRefuse = new CompleteAction;
             $this->actionComplete = new CompleteAction;
@@ -91,8 +96,8 @@ const GET_MAP_STATUS = [
         $this->statusCurrent = $statusCurrent;
 
         if ($this->statusCurrent === self::STATUS_NEW) {
-            if ($this->actionCencel->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = $this->actionCencel;
+            if ($this->actionCancel->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+                $this->actionCurrent = $this->actionCancel;
             }
             elseif ($this->actionRespond->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
                 $this->actionCurrent = $this->actionRespond;

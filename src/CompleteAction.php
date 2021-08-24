@@ -5,11 +5,7 @@ class CompleteAction extends AbstractAction {
 
     public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
 
-        $this->idCurrentUser = $idCurrentUser;
-        $this->idCustomer = $idCustomer;
-        $this->idExecute = $idExecute;
-
-        if ($this->idCurrentUser === $this->idCustomer) {
+        if ($idCurrentUser === $idCustomer) {
             return true;
         }
 
@@ -20,7 +16,7 @@ class CompleteAction extends AbstractAction {
         return 'Выполненно';
     }
 
-    public function getAlterNameAction() {
+    public function getInnerNameAction() {
         return 'action_complete';
     }
 }

@@ -1,22 +1,22 @@
 <?php
 namespace App;
 
-class RefuseAction extends AbstractAction {
+class CancelAction extends AbstractAction {
 
     public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
 
-        if ($idCurrentUser === $idExecute) {
+        if ($idCurrentUser === $idCustomer) {
             return true;
         }
 
         return false;
-    }
+}
 
     public function getNameAction() {
-        return 'Отказаться';
+        return 'Отменить';
     }
 
     public function getInnerNameAction() {
-        return 'action_refuse';
+        return 'action_cancel';
     }
 }

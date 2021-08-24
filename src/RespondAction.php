@@ -5,11 +5,7 @@ class RespondAction extends AbstractAction {
 
     public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
 
-        $this->idCurrentUser = $idCurrentUser;
-        $this->idCustomer = $idCustomer;
-        $this->idExecute = $idExecute;
-
-        if ($this->idCurrentUser === $this->idExecute) {
+        if ($idCurrentUser === $idExecute) {
             return true;
         }
 
@@ -20,7 +16,7 @@ class RespondAction extends AbstractAction {
         return 'Откликнуться';
     }
 
-    public function getAlterNameAction() {
+    public function getInnerNameAction() {
         return 'action_respond';
     }
 }
