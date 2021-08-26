@@ -62,11 +62,6 @@ const STATUS_NAMES = [
             $this->idCurrentUser = $idCurrentUser;
             $this->statusCurrent =  self::STATUS_NEW;
 
-            $this->actionCancel = new CancelAction;
-            $this->actionRespond = new RespondAction;
-            $this->actinRefuse = new CompleteAction;
-            $this->actionComplete = new CompleteAction;
-
     }
 
 
@@ -96,22 +91,26 @@ const STATUS_NAMES = [
         $this->statusCurrent = $statusCurrent;
 
         if ($this->statusCurrent === self::STATUS_NEW) {
-            if ($this->actionCancel->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = $this->actionCancel;
+            $action = new CancelAction;
+            if ($action->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+                return $action;
             }
-            elseif ($this->actionRespond->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = $this->actionRespond;
+
+            $action = new RespondAction;
+            if ($action->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+               return $action;
             }
         }
         elseif ($this->statusCurrent === self::STATUS_INWORK) {
-            if ($this->actionComplete->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = $this->actionComplete;
+            $action = new CompleteAction;
+            if ($action->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+                return $action;
             }
-            elseif ($this->actinRefuse->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
-                $this->actionCurrent = $this->actinRefuse;
+
+            $action = new RefuseAction;
+            if ($action->validateAccessUser($this->idCurrentUser, $this->customerId, $this->executerId)) {
+               return $action;
             }
         }
-
-        return $this->actionCurrent;
     }
 }
