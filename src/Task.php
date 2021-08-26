@@ -5,6 +5,8 @@ use App\CancelAction;
 use App\RespondAction;
 use App\CompleteAction;
 use App\RefuseAction;
+use App\ActionWrongException;
+use App\StatusWrongException;
 
 class Task {
 
@@ -75,6 +77,11 @@ const STATUS_NAMES = [
             throw new \LogicException('Передан неверный аргумент в метод');
         }
 
+        if (!isset(self::ACTION_TO_STATUS_MAP[$this->actionCurrent]))
+        {
+            throw new ActionWrongException('Передано неверное действие');
+        }
+
         return self::ACTION_TO_STATUS_MAP[$this->actionCurrent];
 
     }
@@ -89,6 +96,10 @@ const STATUS_NAMES = [
     public function getAvailableActions(string $statusCurrent): object
     {
         $this->statusCurrent = $statusCurrent;
+
+        if (!isset(self::STATUS_NAMES[$this->statusCurrent])) {
+            throw new StatusWrongException('Передан неверный статус');
+        }
 
         if ($this->statusCurrent === self::STATUS_NEW) {
             $action = new CancelAction;
