@@ -1,6 +1,7 @@
 <?php
 use App\Task;
 use App\Exceptions\ActionWrongException;
+use App\Exceptions\StatusWrongException;
 
 require_once "../vendor/autoload.php";
 
@@ -19,7 +20,7 @@ try {
     $object = $task->getAvailableActions($nexStatus);
 }
 catch (StatusWrongException $e) {
-    error_log($e-getMessage());
+    error_log($e->getMessage());
 }
 
 print($object->getNameAction());
