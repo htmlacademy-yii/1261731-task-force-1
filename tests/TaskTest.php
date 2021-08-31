@@ -1,5 +1,7 @@
 <?php
 use App\Task;
+use App\Exceptions\ActionWrongException;
+
 require_once "../vendor/autoload.php";
 
 $task = new Task(44, 44, 15);

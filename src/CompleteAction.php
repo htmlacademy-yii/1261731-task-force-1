@@ -3,7 +3,7 @@ namespace App;
 
 class CompleteAction extends AbstractAction {
 
-    public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
+    public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute): bool {
 
         if ($idCurrentUser === $idCustomer) {
             return true;
@@ -12,11 +12,11 @@ class CompleteAction extends AbstractAction {
         return false;
     }
 
-    public function getNameAction() {
+    public function getNameAction(): string {
         return 'Выполненно';
     }
 
-    public function getInnerNameAction() {
+    public function getInnerNameAction(): string {
         return 'action_complete';
     }
 }
