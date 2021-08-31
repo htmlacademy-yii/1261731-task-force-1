@@ -3,7 +3,7 @@ namespace App;
 
 class RespondAction extends AbstractAction {
 
-    public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
+    public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute): bool {
 
         if ($idCurrentUser === $idExecute) {
             return true;
@@ -12,11 +12,11 @@ class RespondAction extends AbstractAction {
         return false;
     }
 
-    public function getNameAction() {
+    public function getNameAction(): string {
         return 'Откликнуться';
     }
 
-    public function getInnerNameAction() {
+    public function getInnerNameAction(): string {
         return 'action_respond';
     }
 }

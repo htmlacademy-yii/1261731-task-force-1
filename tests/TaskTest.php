@@ -1,14 +1,28 @@
 <?php
 use App\Task;
+use App\Exceptions\ActionWrongException;
+use App\Exceptions\StatusWrongException;
+
 require_once "../vendor/autoload.php";
 
 $task = new Task(44, 44, 15);
 
-$nexStatus = $task->getNextStatus('action_respond');
+try {
+    $nexStatus = $task->getNextStatus('action_respond');
+}
+catch (ActionWrongException $e) {
+    error_log($e->getMessage());
+}
 
 print($nexStatus);
 
-$object = $task->getAvailableActions($nexStatus);
+try {
+    $object = $task->getAvailableActions($nexStatus);
+}
+catch (StatusWrongException $e) {
+    error_log($e->getMessage());
+}
+
 print($object->getNameAction());
 
 print_r($object);

@@ -3,7 +3,7 @@ namespace App;
 
 class RefuseAction extends AbstractAction {
 
-    public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute) {
+    public function validateAccessUser(int $idCurrentUser, int $idCustomer, int $idExecute): bool {
 
         if ($idCurrentUser === $idExecute) {
             return true;
@@ -12,11 +12,11 @@ class RefuseAction extends AbstractAction {
         return false;
     }
 
-    public function getNameAction() {
+    public function getNameAction(): string {
         return 'Отказаться';
     }
 
-    public function getInnerNameAction() {
+    public function getInnerNameAction(): string {
         return 'action_refuse';
     }
 }
