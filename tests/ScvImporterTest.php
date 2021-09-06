@@ -1,4 +1,5 @@
 <?php
+use App\ScvImporter;
 use App\SqlGenerator;
 use App\Exceptions\SourceFileException;
 use App\Exceptions\FileFormatException;
@@ -23,10 +24,12 @@ $tasksColumns = [
 ];
 
 function getData(string $filename, array $columns) {
-    $getDataTest = new SqlGenerator($filename, $columns);
+    $getDataTest = new ScvImporter($filename, $columns);
     $getDataTest->import();
     return $getDataTest ->getData();
 };
 
-$getCategoriesData = getData("..\data\categories.csv", $categoriesColumns);
-print_r($getCategoriesData);
+$categoriesData = getData("categories.csv", $categoriesColumns);
+
+$written = new SqlGenerator("categories.sql", "123");
+$written->written();
