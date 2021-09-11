@@ -34,7 +34,7 @@ class ScvImporter {
             throw new SourceFileException("Не удалось открыть файл на чтение");
         }
 
-        $header_data = $this->getHeaderData();
+        $header_data = $this->getHeaderData(); print_r($header_data);
 
         if ($header_data !== $this->columns) {
             throw new FileFormatException("Исходный файл не содержит необходимых столбцов");

@@ -10,17 +10,24 @@ class SqlGenerator {
     const PATH_FILE = "..\data\\";
 
     private $filename;
-    private $SvcData;
+    private $data;
 
-    public function __construct(string $filename, $SvcData) {
+    public function __construct(string $filename, ScvImporter $SvcData) {
         $this->filename = self::PATH_FILE . $filename;
-        $this->SvcData = $SvcData;
+        $SvcData->import();
+        $this->$data = $SvcData->getData();
     }
 
     public function written():void {
 
-        $this->fileObject = new SplFileObject($this->filename, "w");
-        $written = $this->fileObject->fwrite($this->SvcData);
+        $this->fileObject = new SplFileObject($this->filename, "a");
+
+        foreach ($this->$data as $items) {
+            foreach ($items as $item) {
+                $item = $item . "\n";
+                $written = $this->fileObject->fwrite($item);
+            }
+        }
 
     }
 }

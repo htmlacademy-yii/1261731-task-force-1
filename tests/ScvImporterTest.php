@@ -23,13 +23,20 @@ $tasksColumns = [
     "long"
 ];
 
-function getData(string $filename, array $columns) {
-    $getDataTest = new ScvImporter($filename, $columns);
-    $getDataTest->import();
-    return $getDataTest ->getData();
-};
+$usersColumns = [
+    "email",
+    "name",
+    "password",
+    "dt_add"
+];
 
-$categoriesData = getData("categories.csv", $categoriesColumns);
 
-$written = new SqlGenerator("categories.sql", "123");
+
+$categoriesData = new ScvImporter("users.csv", $usersColumns);
+$categoriesData->import();
+print_r($categoriesData->getData());
+
+$written = new SqlGenerator("users.sql", $categoriesData);
 $written->written();
+
+//INSERT INTO users (email, password) VALUES ('vasya@mail.ru','secret');
