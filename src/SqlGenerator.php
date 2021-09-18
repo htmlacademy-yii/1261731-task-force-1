@@ -12,7 +12,7 @@ class SqlGenerator {
     private $filename;
     private $data;
 
-    public function __construct(string $filename, ScvImporter $SvcData) {
+    public function __construct(string $filename, ScvImporter $SvcData, array $columns) {
         $this->filename = self::PATH_FILE . $filename;
         $SvcData->import();
         $this->$data = $SvcData->getData();
@@ -22,7 +22,7 @@ class SqlGenerator {
 
         $this->fileObject = new SplFileObject($this->filename, "a");
 
-        foreach ($this->$data as $items) {
+        foreach ($this->$data as $items) { print_r($items);
             foreach ($items as $item) {
                 $item = $item . "\n";
                 $written = $this->fileObject->fwrite($item);

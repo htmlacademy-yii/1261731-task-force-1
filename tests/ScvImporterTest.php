@@ -6,6 +6,12 @@ use App\Exceptions\FileFormatException;
 
 require_once "../vendor/autoload.php";
 
+$cityColumns = [
+    "name",
+    "lat",
+    "long"
+];
+
 $categoriesColumns = [
     "name",
     "icon"
@@ -32,11 +38,11 @@ $usersColumns = [
 
 
 
-$categoriesData = new ScvImporter("users.csv", $usersColumns);
-$categoriesData->import();
-print_r($categoriesData->getData());
+$citiesData = new ScvImporter("cities.csv", $cityColumns);
+$citiesData->import();
+print_r($citiesData->getData());
 
-$written = new SqlGenerator("users.sql", $categoriesData);
+$written = new SqlGenerator("cities.sql", $citiesData);
 $written->written();
 
 //INSERT INTO users (email, password) VALUES ('vasya@mail.ru','secret');

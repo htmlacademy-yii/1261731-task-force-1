@@ -6,6 +6,8 @@ CREATE TABLE specializations (
     PRIMARY KEY (id),
     id                INT      UNSIGNED  NOT NULL AUTO_INCREMENT,
     name              VARCHAR (50)       NOT NULL,
+    lat               VARCHAR (255)      NOT NULL,
+    long              VARCHAR (255)      NOT NULL,
     created_at        TIMESTAMP          NOT NULL,
     updated_at        TIMESTAMP          NOT NULL,
                       UNIQUE (name)
