@@ -16,16 +16,18 @@ CREATE TABLE cities (
     PRIMARY KEY (id),
     id                INT    UNSIGNED  NOT NULL  AUTO_INCREMENT,
     name              VARCHAR (50),
+    lat               VARCHAR (255),
+    long              VARCHAR (255),
     created_at        TIMESTAMP          NOT NULL,
     updated_at        TIMESTAMP          NOT NULL
 );
 CREATE TABLE users (
     PRIMARY KEY (id),
     id                  INT      UNSIGNED NOT NULL AUTO_INCREMENT,
-    name                VARCHAR (255)     NOT NULL,
-    age                 INT      UNSIGNED NOT NULL,
     email               VARCHAR (255)     NOT NULL,
+    name                VARCHAR (255)     NOT NULL,
     password            VARCHAR (255)     NOT NULL,
+    age                 INT      UNSIGNED NOT NULL,
     phone               VARCHAR (255),
     skype               VARCHAR (255),
     telegram            VARCHAR (255),
@@ -59,6 +61,7 @@ CREATE TABLE categories (
     PRIMARY KEY (id),
     id                INT       UNSIGNED NOT NULL AUTO_INCREMENT,
     name              VARCHAR (50)       NOT NULL,
+    icon              VARCHAR (255),
     created_at        TIMESTAMP          NOT NULL,
     updated_at        TIMESTAMP          NOT NULL,
                       UNIQUE (name)

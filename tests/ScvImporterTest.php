@@ -40,9 +40,9 @@ $usersColumns = [
 
 $citiesData = new ScvImporter("cities.csv", $cityColumns);
 $citiesData->import();
-print_r($citiesData->getData());
+$citiesData->getData();
 
-$written = new SqlGenerator("cities.sql", $citiesData);
+$written = new SqlGenerator("cities.sql", $citiesData, $cityColumns);
 $written->written();
 
 //INSERT INTO users (email, password) VALUES ('vasya@mail.ru','secret');

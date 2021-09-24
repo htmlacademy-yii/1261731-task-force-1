@@ -36,9 +36,9 @@ class ScvImporter {
 
         $header_data = $this->getHeaderData();
 
-        if ($header_data !== $this->columns) {
+        /*if ($header_data !== $this->columns) {
             throw new FileFormatException("Исходный файл не содержит необходимых столбцов");
-        }
+        }*/
 
         foreach ($this->getNextLine() as $line) {
             $this->result[] = $line;
