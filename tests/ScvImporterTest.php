@@ -9,7 +9,9 @@ require_once "../vendor/autoload.php";
 $cityColumns = [
     "name",
     "lat",
-    "long"
+    "longe",
+    "created_at",
+    "updated_at"
 ];
 
 $categoriesColumns = [

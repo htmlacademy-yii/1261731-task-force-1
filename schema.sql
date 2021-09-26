@@ -1,13 +1,10 @@
-CREATE DATABASE taskforce
-  DEFAULT CHARACTER SET utf8
-  DEFAULT COLLATE utf8_general_ci;
-USE taskforce;
+USE taskforce
 CREATE TABLE specializations (
     PRIMARY KEY (id),
     id                INT      UNSIGNED  NOT NULL AUTO_INCREMENT,
     name              VARCHAR (50)       NOT NULL,
     lat               VARCHAR (255)      NOT NULL,
-    long              VARCHAR (255)      NOT NULL,
+    longe              VARCHAR (255)      NOT NULL,
     created_at        TIMESTAMP          NOT NULL,
     updated_at        TIMESTAMP          NOT NULL,
                       UNIQUE (name)
@@ -17,7 +14,7 @@ CREATE TABLE cities (
     id                INT    UNSIGNED  NOT NULL  AUTO_INCREMENT,
     name              VARCHAR (50),
     lat               VARCHAR (255),
-    long              VARCHAR (255),
+    longe              VARCHAR (255),
     created_at        TIMESTAMP          NOT NULL,
     updated_at        TIMESTAMP          NOT NULL
 );

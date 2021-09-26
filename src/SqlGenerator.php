@@ -19,7 +19,7 @@ class SqlGenerator {
         $this->filename = self::PATH_FILE . $filename;
         $SvcData->import();
         $this->data = $SvcData->getData();
-        $this->columns = implode(',', $columns); print_r($this->columns);
+        $this->columns = implode(',', $columns);
     }
 
     public function written():void {
@@ -28,9 +28,9 @@ class SqlGenerator {
 
         foreach ($this->data as $items) {
             $item_o = implode(',', $items);
-            $item_o = $item_o;
+            $item_o = (string) $item_o;
 
-            $sql = "INSERT INTO $this->tablename ( $this->columns ) VALUES ( $item_o )" . "\n";
+            $sql = '"'."INSERT INTO $this->tablename ( $this->columns ) VALUES ( $item_o, now(), now())" .'"' . "\n";
 
                 $written = $this->fileObject->fwrite($sql);
 
