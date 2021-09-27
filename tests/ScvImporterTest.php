@@ -39,12 +39,16 @@ $usersColumns = [
 ];
 
 
+function createFiles(string $fileCvs, array $columns) {
+    $citiesData = new ScvImporter($fileCvs, $columns);
+    $citiesData->import();
+    $citiesData->getData();
 
-$citiesData = new ScvImporter("cities.csv", $cityColumns);
-$citiesData->import();
-$citiesData->getData();
+    $sqlFileName = str_replace('.csv', '.sql', $fileCvs);
 
-$written = new SqlGenerator("cities.sql", $citiesData, $cityColumns);
-$written->written();
+    $written = new SqlGenerator($sqlFileName, $citiesData, $columns);
+    $written->written();
+}
 
-//INSERT INTO users (email, password) VALUES ('vasya@mail.ru','secret');
+createFiles("cities.csv", $cityColumns);
+createFiles("categories.csv", $categoriesColumns);

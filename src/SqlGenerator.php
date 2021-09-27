@@ -30,7 +30,7 @@ class SqlGenerator {
             $item_o = implode(',', $items);
             $item_o = (string) $item_o;
 
-            $sql = '"'."INSERT INTO $this->tablename ( $this->columns ) VALUES ( $item_o, now(), now())" .'"' . "\n";
+            $sql = "INSERT INTO $this->tablename ( $this->columns ) VALUES ( $item_o, now(), now())" . "\n";
 
                 $written = $this->fileObject->fwrite($sql);
 

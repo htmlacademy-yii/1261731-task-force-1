@@ -31,18 +31,14 @@ class SqlQuery {
             throw new SourceFileException("Не удалось открыть файл на чтение");
         }
 
-        foreach ($this->getNextLine() as $line) {
-            $this->result[] = $line;
-            print_r($line);
-            //$mysqli->query("INSERT INTO cities (name, lat, longe, created_at, updated_at) VALUES('Абакан', 53.7223661, 91.4437792, now(), now())");
-            $mysqli->query($line);
+        $resource = @fopen($this->fileSql, "r");
+
+        while (($buffer = fgets($resource, 4096)) !== false) {
+            print_r($buffer);
+            $mysqli->query($buffer);
         }
     }
-/*
-    public function getData():array {
-        return $this->result;
-    }
-*/
+
     private function getNextLine():?iterable {
         $result = null;
 
