@@ -16,7 +16,9 @@ $cityColumns = [
 
 $categoriesColumns = [
     "name",
-    "icon"
+    "icon",
+    "created_at",
+    "updated_at"
 ];
 
 $tasksColumns = [
@@ -35,7 +37,8 @@ $usersColumns = [
     "email",
     "name",
     "password",
-    "dt_add"
+    "created_at",
+    "updated_at"
 ];
 
 
@@ -52,3 +55,4 @@ function createFiles(string $fileCvs, array $columns) {
 
 createFiles("cities.csv", $cityColumns);
 createFiles("categories.csv", $categoriesColumns);
+createFiles("users.csv", $usersColumns);

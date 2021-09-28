@@ -22,19 +22,28 @@ CREATE TABLE users (
     email               VARCHAR (255)     NOT NULL,
     name                VARCHAR (255)     NOT NULL,
     password            VARCHAR (255)     NOT NULL,
+    created_at          TIMESTAMP         NOT NULL,
+    updated_at          TIMESTAMP         NOT NULL,
+                        UNIQUE (email)
+);
+CREATE TABLE profiles (
+    PRIMARY KEY (id),
+    id                   INT         UNSIGNED NOT NULL   AUTO_INCREMENT,
+    user_id              INT         UNSIGNED NOT NULL,
+    address              VARCHAR (255),
+    bd                   DATETIME,
+    about                TEXT,
+    phone                VARCHAR (255),
+    skype                VARCHAR (255),
+    telegram             VARCHAR (255),
     age                 INT      UNSIGNED NOT NULL,
-    phone               VARCHAR (255),
-    skype               VARCHAR (255),
-    telegram            VARCHAR (255),
     photo               VARCHAR (255),
     is_notefecation_enabled        TINYINT(1),
     show_contacts       TINYINT(1),
     show_profile        TINYINT(1),
     city_id             INT   UNSIGNED,
-    created_at          TIMESTAMP          NOT NULL,
-    updated_at          TIMESTAMP          NOT NULL,
-                        UNIQUE (email),
-                        FOREIGN KEY (city_id)        REFERENCES cities (id)
+                         FOREIGN KEY (user_id)  REFERENCES users (id),
+                         FOREIGN KEY (city_id)  REFERENCES cities (id)
 );
 CREATE TABLE photos_of_works (
     PRIMARY KEY (id),
