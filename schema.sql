@@ -75,6 +75,7 @@ CREATE TABLE tasks (
     id                INT          UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id           INT          UNSIGNED NOT NULL,
     title             TEXT                  NOT NULL,
+    address           VARCHAR (255)         NOT NULL,
     description       TEXT                  NOT NULL,
     category_id       INT          UNSIGNED NOT NULL,
     current_executor_id INT        UNSIGNED NOT NULL,
