@@ -106,7 +106,7 @@ CREATE TABLE comments (
     id                 INT      UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id            INT      UNSIGNED NOT NULL,
     task_id            INT      UNSIGNED NOT NULL,
-    comment            TEXT              NOT NULL,
+    description        TEXT              NOT NULL,
     rating             INT   UNSIGNED,
     author_id         INT    UNSIGNED     NOT NULL,
     created_at         TIMESTAMP          NOT NULL,

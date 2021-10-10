@@ -11,12 +11,9 @@ class SqlQuery {
     private $fileObject;
     private $result = [];
 
-    public function __construct(string $filesql) {
+    public function export(string $filesql) {
 
         $this->fileSql = self::PATH_FILE . $filesql;
-    }
-
-    public function export() {
 
         $mysqli = new mysqli("localhost", "root", "root", "taskforce");
 
@@ -34,7 +31,6 @@ class SqlQuery {
         $resource = @fopen($this->fileSql, "r");
 
         while (($buffer = fgets($resource, 4096)) !== false) {
-            print_r($buffer);
             $mysqli->query($buffer);
         }
     }
