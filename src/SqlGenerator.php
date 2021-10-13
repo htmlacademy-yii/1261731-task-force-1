@@ -9,10 +9,10 @@ use SplFileObject;
 class SqlGenerator {
     const PATH_FILE = "..\data\\";
 
-    private $filename;
-    private $data;
-    private $columns;
-    private $tablename;
+    protected $filename;
+    protected $data;
+    protected $columns;
+    protected $tablename;
 
     public function __construct(string $filename, ScvImporter $SvcData, array $columns) {
         $this->tablename = str_replace('.sql', '', $filename);
@@ -25,6 +25,7 @@ class SqlGenerator {
     public function written():void {
 
         $this->fileObject = new SplFileObject($this->filename, "a");
+
 
         foreach ($this->data as $items) {
             $item_o = implode(',', $items);

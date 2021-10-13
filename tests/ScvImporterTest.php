@@ -1,6 +1,7 @@
 <?php
 use App\ScvImporter;
 use App\SqlGenerator;
+use App\SqlRepiesGenerator;
 use App\Exceptions\SourceFileException;
 use App\Exceptions\FileFormatException;
 
@@ -41,6 +42,15 @@ $usersColumns = [
     "updated_at"
 ];
 
+$repliesColumns = [
+    "created_at",
+    "cost",
+    "comment",
+    "user_id",
+    "task_id",
+    "updated_at"
+];
+
 
 function createFiles(string $fileCvs, array $columns) {
     $citiesData = new ScvImporter($fileCvs, $columns);
@@ -56,3 +66,9 @@ function createFiles(string $fileCvs, array $columns) {
 createFiles("cities.csv", $cityColumns);
 createFiles("categories.csv", $categoriesColumns);
 createFiles("users.csv", $usersColumns);
+
+$repliesData = new ScvImporter("replies.csv", $repliesColumns);
+$repliesData->import();
+$repliesData->getData();
+$createSqlRepliesFile = new SqlRepiesGenerator("replies.sql", $repliesData, $repliesColumns);
+$createSqlRepliesFile->written();

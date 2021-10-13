@@ -8,5 +8,6 @@ $sqlQuery = new SqlQuery;
 $sqlQuery->export("cities.sql");
 $sqlQuery->export("categories.sql");
 $sqlQuery->export("users.sql");
+$sqlQuery->export("replies.sql");
 
 
