@@ -2,6 +2,7 @@
 use App\ScvImporter;
 use App\SqlGenerator;
 use App\SqlRepiesGenerator;
+use App\SqlTasksGenerator;
 use App\Exceptions\SourceFileException;
 use App\Exceptions\FileFormatException;
 
@@ -23,15 +24,20 @@ $categoriesColumns = [
 ];
 
 $tasksColumns = [
-    "dt_add",
+    "status",
+    "created_at",
     "category_id",
     "description",
-    "expire",
-    "name",
+    "date_finished",
+    "title",
     "address",
     "budget",
-    "lat",
-    "long"
+    "latitude",
+    "longitude",
+    "user_id",
+    "city_id",
+    "current_executor_id",
+    "updated_at"
 ];
 
 $usersColumns = [
@@ -63,6 +69,7 @@ function createFiles(string $fileCvs, array $columns) {
     $written->written();
 }
 
+
 createFiles("cities.csv", $cityColumns);
 createFiles("categories.csv", $categoriesColumns);
 createFiles("users.csv", $usersColumns);
@@ -72,3 +79,9 @@ $repliesData->import();
 $repliesData->getData();
 $createSqlRepliesFile = new SqlRepiesGenerator("replies.sql", $repliesData, $repliesColumns);
 $createSqlRepliesFile->written();
+
+$tasksData = new ScvImporter("tasks.csv", $tasksColumns);
+$tasksData->import();
+$tasksData->getData();
+$createSqlTasksFile = new SqlTasksGenerator("tasks.sql", $tasksData, $tasksColumns);
+$createSqlTasksFile->written();

@@ -19,9 +19,10 @@ class SqlRepiesGenerator extends SqlGenerator {
             $item_o = implode(',', $items);
             $item_o = (string) $item_o;
             $user_id = rand(1, 20);
-            $task_id = rand(1, 10);
+            $tasks_id = rand(1, 10);
 
-            $sql = "INSERT INTO $this->tablename ( $this->columns ) VALUES ( $item_o, $user_id, $task_id, now())" . "\n";
+
+            $sql = "INSERT INTO $this->tablename ( $this->columns ) VALUES ( $item_o, $user_id, $tasks_id, now())" . "\n";
 
             $written = $this->fileObject->fwrite($sql);
 
