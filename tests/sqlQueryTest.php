@@ -9,7 +9,9 @@ $sqlQuery = new SqlQuery;
 //$sqlQuery->export("categories.sql");
 //$sqlQuery->export("users.sql");
 //$sqlQuery->export("tasks.sql");
-$sqlQuery->export("replies.sql");
+//$sqlQuery->export("replies.sql");
+//$sqlQuery->export("profiles.sql");
+$sqlQuery->export("comments.sql");
 
 
 

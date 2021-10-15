@@ -12,7 +12,7 @@ CREATE TABLE cities (
     id                INT    UNSIGNED  NOT NULL  AUTO_INCREMENT,
     name              VARCHAR (50),
     lat               VARCHAR (255),
-    longe              VARCHAR (255),
+    longe             VARCHAR (255),
     created_at        TIMESTAMP          NOT NULL,
     updated_at        TIMESTAMP          NOT NULL
 );
@@ -42,6 +42,7 @@ CREATE TABLE profiles (
     show_contacts       TINYINT(1),
     show_profile        TINYINT(1),
     city_id             INT   UNSIGNED,
+    updated_at       TIMESTAMP               NOT NULL,
                          FOREIGN KEY (user_id)  REFERENCES users (id),
                          FOREIGN KEY (city_id)  REFERENCES cities (id)
 );
@@ -81,8 +82,8 @@ CREATE TABLE tasks (
     current_executor_id INT        UNSIGNED NOT NULL,
     status            VARCHAR (255)         NOT NULL,
     city_id           INT   UNSIGNED,
-    latitude          INT   UNSIGNED,
-    longitude         INT   UNSIGNED,
+    latitude          VARCHAR (255),
+    longitude         VARCHAR (255),
     budget            DECIMAL (12, 2),
     date_finished     DATETIME,
     created_at        TIMESTAMP               NOT NULL,
