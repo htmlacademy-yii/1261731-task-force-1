@@ -17,7 +17,7 @@ class SqlGenerator {
     public function __construct(string $filename, ScvImporter $SvcData, array $columns) {
         $this->tablename = str_replace('.sql', '', $filename);
         $this->filename = self::PATH_FILE . $filename;
-        $SvcData->import();
+        //$SvcData->import();
         $this->data = $SvcData->getData();
         $this->columns = implode(',', $columns);
     }
@@ -39,27 +39,3 @@ class SqlGenerator {
 
     }
 }
-
-/*
-if ( ($handle_o = fopen($file_name, "r") ) !== FALSE ) {
-    // читаем первую строку и разбираем названия полей
-    $columns_o = fgetcsv($handle_o, 1000, ";");
-    foreach( $columns_o as $v ) {
-       $insertColumns[]="'".addslashes(trim($v))."'";
-    }
-    $columns=implode(',',$insertColumns);
-
-
-    while ( ($data_o = fgetcsv($handle_o, 1000, ";")) !== FALSE) {
-      $insertValues = array();
-      foreach( $data_o as $v ) {
-         $insertValues[]="'".addslashes(trim($v))."'";
-      }
-      $values=implode(',',$insertValues);
-      $sql = "INSERT INTO `sdelka_temp` ( $columns ) VALUES ( $values )";
-      mysql_query($sql) or die('SQL ERROR:'.mysql_error());
-    }
-
-}
-fclose($handle_o);
-*/
