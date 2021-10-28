@@ -14,6 +14,9 @@ class m211027_210034_create_specializations_table extends Migration
     {
         $this->createTable('{{%specializations}}', [
             'id' => $this->primaryKey(),
+            'name' => $this->string(50)->notNull()->unique(),
+            'created_at' => $this->timestamp()->notNull(),
+            'updated_at' => $this->timestamp()->notNull()           
         ]);
     }
 
