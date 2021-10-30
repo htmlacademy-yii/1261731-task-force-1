@@ -14,6 +14,10 @@ class m211028_182525_create_categories_table extends Migration
     {
         $this->createTable('{{%categories}}', [
             'id' => $this->primaryKey(),
+            'name' => $this->string(50)->notNull(),
+            'icon' => $this->string(255),
+            'created_at' => $this->timestamp()->notNull(),
+            'updated_at' => $this->timestamp()->notNull() 
         ]);
     }
 

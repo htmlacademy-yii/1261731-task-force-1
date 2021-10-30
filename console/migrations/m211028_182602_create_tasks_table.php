@@ -14,6 +14,14 @@ class m211028_182602_create_tasks_table extends Migration
     {
         $this->createTable('{{%tasks}}', [
             'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull() . 'UNSIGNED',
+            'title' => $this->text()->notNull(),
+            'address' => $this->string(255)->notNull(),
+            'description' => $this->text()->notNull(),
+            'category_id' => $this->integer()->notNull() . 'UNSIGNED',
+            'current_executor_id' => $this->intege()->notNull() . 'UNSIGNED',
+            'status' => $this->string(255)-notNull(),
+            'city_id' => $this->integer() . 'UNSIGNED'
         ]);
     }
 
