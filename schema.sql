@@ -163,5 +163,6 @@ CREATE TABLE chat_messages (
     chat_id            INT    UNSIGNED    NOT NULL,
     created_at         TIMESTAMP          NOT NULL,
     updated_at         TIMESTAMP          NOT NULL,
+                       FOREIGN KEY (user_id)    REFERENCES users (id)
                        FOREIGN KEY (chat_id)    REFERENCES chats (id)
 );

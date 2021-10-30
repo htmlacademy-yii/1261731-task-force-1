@@ -13,7 +13,8 @@ class m211028_182449_create_specialization_user_table extends Migration
     public function safeUp()
     {
         $this->createTable('{{%specialization_user}}', [
-            'id' => $this->primaryKey(),
+            'specialization_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer()->notNull()
         ]);
     }
 

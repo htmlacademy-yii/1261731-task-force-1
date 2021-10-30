@@ -15,7 +15,7 @@ class m211028_182232_create_photos_of_works_table extends Migration
         $this->createTable('{{%photos_of_works}}', [
             'id' => $this->primaryKey(),
             'path_file' => $this->string(255),
-            'user_id' => $this->integer()->notNull() . 'UNSIGNED',
+            'user_id' => $this->integer()->notNull(),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp()->notNull() 
         ]);

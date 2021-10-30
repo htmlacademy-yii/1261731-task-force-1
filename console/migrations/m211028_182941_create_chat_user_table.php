@@ -12,8 +12,9 @@ class m211028_182941_create_chat_user_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('{{%chat_user}}', [
-            'id' => $this->primaryKey(),
+        $this->createTable('{{%chat_user}}', [            
+            'chat_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer()->notNull()
         ]);
     }
 
