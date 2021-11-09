@@ -15,7 +15,7 @@ class SqlQuery {
 
         $this->fileSql = self::PATH_FILE . $filesql;
 
-        $mysqli = new mysqli("localhost", "root", "", "taskforce");
+        $mysqli = new mysqli("localhost", "root", "root", "taskforce");
 
         if (!file_exists($this->fileSql)) {
             throw new SourceFileException("Файл не существует");

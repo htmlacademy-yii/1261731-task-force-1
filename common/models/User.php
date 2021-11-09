@@ -3,49 +3,36 @@
 namespace common\models;
 
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
 
 /**
- * User model
+ * This is the model class for table "users".
  *
- * @property integer $id
- * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $verification_token
+ * @property int $id
  * @property string $email
- * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $password write-only password
+ * @property string $name
+ * @property string $password
+ * @property string $created_at
+ * @property string $updated_at
+ *
+ * @property ActionsHistory[] $actionsHistories
+ * @property ChatMessages[] $chatMessages
+ * @property Chats[] $chats
+ * @property Comments[] $comments
+ * @property Comments[] $comments0
+ * @property PhotosOfWorks[] $photosOfWorks
+ * @property Profiles[] $profiles
+ * @property Replies[] $replies
+ * @property Tasks[] $tasks
+ * @property Tasks[] $tasks0
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends \yii\db\ActiveRecord
 {
-    const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
-    const STATUS_ACTIVE = 10;
-
-
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%user}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
+        return 'users';
     }
 
     /**
@@ -54,160 +41,125 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [['email', 'name', 'password', 'created_at', 'updated_at'], 'required'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['email', 'name', 'password'], 'string', 'max' => 255],
+            [['email'], 'unique'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public function attributeLabels()
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return [
+            'id' => 'ID',
+            'email' => 'Email',
+            'name' => 'Name',
+            'password' => 'Password',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
-
-    /**
-     * Finds user by username
+     * Gets query for [[ActionsHistories]].
      *
-     * @param string $username
-     * @return static|null
+     * @return \yii\db\ActiveQuery
      */
-    public static function findByUsername($username)
+    public function getActionsHistories()
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return $this->hasMany(ActionsHistory::className(), ['user_id' => 'id']);
     }
 
     /**
-     * Finds user by password reset token
+     * Gets query for [[ChatMessages]].
      *
-     * @param string $token password reset token
-     * @return static|null
+     * @return \yii\db\ActiveQuery
      */
-    public static function findByPasswordResetToken($token)
+    public function getChatMessages()
     {
-        if (!static::isPasswordResetTokenValid($token)) {
-            return null;
-        }
-
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
+        return $this->hasMany(ChatMessages::className(), ['user_id' => 'id']);
     }
 
     /**
-     * Finds user by verification email token
+     * Gets query for [[Chats]].
      *
-     * @param string $token verify email token
-     * @return static|null
+     * @return \yii\db\ActiveQuery
      */
-    public static function findByVerificationToken($token) {
-        return static::findOne([
-            'verification_token' => $token,
-            'status' => self::STATUS_INACTIVE
-        ]);
+    public function getChats()
+    {
+        return $this->hasMany(Chats::className(), ['author_id' => 'id']);
     }
 
     /**
-     * Finds out if password reset token is valid
+     * Gets query for [[Comments]].
      *
-     * @param string $token password reset token
-     * @return bool
+     * @return \yii\db\ActiveQuery
      */
-    public static function isPasswordResetTokenValid($token)
+    public function getComments()
     {
-        if (empty($token)) {
-            return false;
-        }
-
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
-        return $timestamp + $expire >= time();
+        return $this->hasMany(Comments::className(), ['author_id' => 'id']);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
-
-    /**
-     * Validates password
+     * Gets query for [[Comments0]].
      *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * @return \yii\db\ActiveQuery
      */
-    public function validatePassword($password)
+    public function getComments0()
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return $this->hasMany(Comments::className(), ['user_id' => 'id']);
     }
 
     /**
-     * Generates password hash from password and sets it to the model
+     * Gets query for [[PhotosOfWorks]].
      *
-     * @param string $password
+     * @return \yii\db\ActiveQuery
      */
-    public function setPassword($password)
+    public function getPhotosOfWorks()
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        return $this->hasMany(PhotosOfWorks::className(), ['user_id' => 'id']);
     }
 
     /**
-     * Generates "remember me" authentication key
+     * Gets query for [[Profiles]].
+     *
+     * @return \yii\db\ActiveQuery
      */
-    public function generateAuthKey()
+    public function getProfiles()
     {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+        return $this->hasMany(Profiles::className(), ['user_id' => 'id']);
     }
 
     /**
-     * Generates new password reset token
+     * Gets query for [[Replies]].
+     *
+     * @return \yii\db\ActiveQuery
      */
-    public function generatePasswordResetToken()
+    public function getReplies()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        return $this->hasMany(Replies::className(), ['user_id' => 'id']);
     }
 
     /**
-     * Generates new token for email verification
+     * Gets query for [[Tasks]].
+     *
+     * @return \yii\db\ActiveQuery
      */
-    public function generateEmailVerificationToken()
+    public function getTasks()
     {
-        $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
+        return $this->hasMany(Tasks::className(), ['current_executor_id' => 'id']);
     }
 
     /**
-     * Removes password reset token
+     * Gets query for [[Tasks0]].
+     *
+     * @return \yii\db\ActiveQuery
      */
-    public function removePasswordResetToken()
+    public function getTasks0()
     {
-        $this->password_reset_token = null;
+        return $this->hasMany(Tasks::className(), ['user_id' => 'id']);
     }
 }
