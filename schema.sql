@@ -31,7 +31,7 @@ CREATE TABLE profiles (
     id                   INT         UNSIGNED NOT NULL   AUTO_INCREMENT,
     user_id              INT         UNSIGNED NOT NULL,
     address              VARCHAR (255),
-    bd                   DATETIME,
+    bd                   DATE,
     about                TEXT,
     phone                VARCHAR (255),
     skype                VARCHAR (255),
@@ -163,5 +163,6 @@ CREATE TABLE chat_messages (
     chat_id            INT    UNSIGNED    NOT NULL,
     created_at         TIMESTAMP          NOT NULL,
     updated_at         TIMESTAMP          NOT NULL,
+                       FOREIGN KEY (user_id)    REFERENCES users (id)
                        FOREIGN KEY (chat_id)    REFERENCES chats (id)
 );
